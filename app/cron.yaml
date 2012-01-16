@@ -1,0 +1,4 @@
+cron:
+- description: push accepted posts
+  url: /push/
+  schedule: every 5 minutes

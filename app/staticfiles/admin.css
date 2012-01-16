@@ -1,0 +1,37 @@
+div.entry {
+    margin: 0 0 30px 0;
+    padding: 5px;
+    background: #ddd;
+}
+
+div.status {
+    margin: 5px 0 0 0;
+    padding-top: 5px;
+    font-size:10px;
+    border-top: 1px solid #aaa;
+}
+div.status input {
+    float: right;
+}
+div.body {
+}
+ul#filter_navigation {
+    margin: 0 0 30px 0;
+    padding: 0;
+    overflow: auto;
+    background: #ddd;
+}
+
+ul#filter_navigation li {
+    float: left;
+    margin: 0 0 0 0;
+    padding: 0 10px 0 10px;
+    list-style: none;
+    border-right: 1px solid black;
+}
+ul#filter_navigation li.active {
+    background: black;
+}
+ul#filter_navigation li.active a {
+    color: white;
+}

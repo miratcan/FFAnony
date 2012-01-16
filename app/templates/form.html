@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+	<p>
+		This tool is used for posting anonymous entries to friendfeed. Entries
+		that posted from this panel appears on profile of 
+		<a href="http://friendfeed.com/ffanony/">ffanony</a>. Nobody knows who
+		you are. But there is two rules you have to obey:
+	</p>
+	<ol>
+		<li>
+			Entries that you posted can <b>NOT</b> contain any <b>USERNAME</b>
+			or <b>REAL NAME</b> of a friendfeed user.
+		</li>
+		<li>
+			If your entry has images, you have to write <b>ffanony</b> somewhere
+			of the pic <b>WITHOUT</b> computer trick. Use pencil and paper :)
+		</li>
+	</ol>
+	<form action="#" method="post" enctype="multipart/form-data" >
+		<label>Body:</label>
+		{% if err_msg %}
+			<div class="negative">{{ err_msg }}</div>
+		{% endif %}
+		<textarea name="body"></textarea>
+		<input type="file" type="image" name="img">
+		<input type="file" type="image" name="img">
+		<input type="file" type="image" name="img">
+		<input type="submit">
+	</form>
+{% endblock %}

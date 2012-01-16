@@ -1,0 +1,67 @@
+body {
+	background: #000 url(/static/mascot.jpg) bottom left no-repeat fixed;
+	font-family: sans;
+	color: #444;
+	font-size: 13px;
+	line-height: 16px;
+	padding: 0;
+	margin: 0;
+}
+div.wrapper {
+	max-width: 590px;
+	overflow: auto;
+	background: #ccc;
+	margin: 0 auto;
+	padding: 10px;
+	border: 3px dashed #bbb;
+}
+a {
+	color: #000;
+}
+label {
+	display: block;
+}
+input {
+	display: block;
+}
+textarea {
+	width: 100%;
+	height: 60px;
+	margin-bottom: 10px;
+	border: none;
+}
+input[type="text"] {
+	width: 555px;
+}
+input[type="file"] {
+	margin: 0 0 10px 0;
+}
+input[type="submit"] {
+	float: right;
+}
+
+li {
+	margin: 0 0 10px 0;
+}
+.positive, .negative, .natural {
+	padding: 10px;
+}
+.positive {
+	background: green;
+}
+.negative {
+	background: red;
+	color: white;
+}
+.natural {
+	background: yellow;
+}
+h1 {
+	border-bottom: 1px solid black;
+}
+h1 a {
+	text-decoration: none;
+}
+div.entry {
+	overflow:auto;
+}

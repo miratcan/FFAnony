@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block extra_head %}
+	<link href="/static/admin.css" type="text/css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <ul id="filter_navigation">
+        <li><a href="/admin/">All</a></li>
+        <li{% if filter_by=="pending" %} class="active" {% endif %}><a href="/admin/?filter_by=pending">Pending</a></li>
+        <li{% if filter_by=="accepted" %} class="active" {% endif %}><a href="/admin/?filter_by=accepted">Accepted</a></li>
+        <li{% if filter_by=="rejected" %} class="active" {% endif %}><a href="/admin/?filter_by=rejected">Rejected</a></li>
+        <li{% if filter_by=="published" %} class="active" {% endif %}><a href="/admin/?filter_by=published">Published</a></li>
+        <li{% if filter_by=="deleted" %} class="active" {% endif %}><a href="/admin/?filter_by=deleted">Deleted</a></li>
+    </ul>
+    <form action="#" method="post">
+	    {% for entry in entries %}
+	    <div class="entry">
+            <div class="body">
+                {{entry.body}}
+            </div>
+            <div class="attachments">
+		        {% for attachment in entry.attachment_set.fetch(10) %}
+			    <a href="/attachment/?key={{attachment.key()}}" target="blank">
+				    <img src="/attachment/?key={{attachment.key()}}&thumbnail=1">
+			    </a>
+		        {% endfor %}
+            </div>
+	        <div class="status {{entry.status}}">Status: {{entry.status}}<input type="checkbox" name="entry_key" value="{{entry.key()}}"></div>
+        </div>
+	    {% endfor %}
+        <select name="action">
+            <option value="accepted">Mark as Accepted</option>
+            <option value="rejected">Mark as Rejected</option>
+            <option value="deleted">Delete</option>
+        </select>
+        <input type="submit" value="Do">
+    </form>
+    {% endblock content %}
