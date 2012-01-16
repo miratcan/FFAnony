@@ -21,7 +21,7 @@ import logging
 
 TEMPLATES_DIR = join(dirname(__file__), "templates")
 JINJA_ENV = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATES_DIR))
-AUTHSTR = "Basic " + base64.b64encode('ffanony:ays114wauks')
+AUTHSTR = "Basic " + base64.b64encode('username:apikey')
 
 
 ## Models #####################################################################
