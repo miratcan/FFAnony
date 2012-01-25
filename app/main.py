@@ -133,6 +133,15 @@ class AttachmentView(webapp2.RequestHandler):
     def get(self):
         attachment = Attachment.get(self.request.get("key"))
         if attachment:
+
+            try:
+                related_entry = attachment.entry
+            except db.ReferencePropertyResolveError:
+                related_entry = None
+
+            if not related_entry or related_entry.status == "deleted":
+                self.redirect('/static/no-image.jpg')
+
             if self.request.get("thumbnail"):
                 image_data = images.resize(attachment.image, 100, 80)
             else:
@@ -140,7 +149,7 @@ class AttachmentView(webapp2.RequestHandler):
             self.response.headers['Content-Type'] = 'image/jpeg'
             self.response.out.write(image_data)
         else:
-            self.redirect('/static/noimage.jpg')
+            self.redirect('/static/no-image.jpg')
 
 
 class AdminView(webapp2.RequestHandler):
