@@ -185,7 +185,8 @@ class PushAccepted(webapp2.RequestHandler):
 
         # Fetch, accepted entries
         entries = db.GqlQuery(
-            "SELECT * FROM Entry WHERE status='accepted'").fetch(1)
+            "SELECT * FROM Entry WHERE status='accepted'"
+            "ORDER BY date ASC").fetch(1)
 
         if entries:
             for entry in entries:

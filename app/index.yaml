@@ -14,4 +14,9 @@ indexes:
   properties:
   - name: status
   - name: date
+
+- kind: Entry
+  properties:
+  - name: status
+  - name: date
     direction: desc
