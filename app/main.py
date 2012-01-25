@@ -10,6 +10,7 @@ from google.appengine.api import users
 from django.utils import simplejson as json
 
 import webapp2
+
 from webapp2_extras import jinja2
 
 import jinja2
@@ -19,9 +20,11 @@ import base64
 import urllib
 import logging
 
+import config
+
 TEMPLATES_DIR = join(dirname(__file__), "templates")
 JINJA_ENV = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATES_DIR))
-AUTHSTR = "Basic " + base64.b64encode('ffanony:stir965dured')
+AUTHSTR = "Basic " + base64.b64encode('%s:%s' % (config.USERNAME, config.REMOTE_KEY))
 
 
 ## Models #####################################################################
