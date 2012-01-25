@@ -1,20 +1,36 @@
 body {
-	background: #000 url(/static/mascot.jpg) bottom left no-repeat fixed;
+	background: #fff url(http://rinf.com/alt-news/wp-content/uploads/2010/07/anonymous.jpg) bottom center no-repeat fixed;
 	font-family: sans;
 	color: #444;
 	font-size: 13px;
 	line-height: 16px;
-	padding: 0;
+	padding: 10px 0 0 0;
 	margin: 0;
 }
-div.wrapper {
-	max-width: 590px;
+
+.section {
+	max-width: 580px;
 	overflow: auto;
-	background: #ccc;
 	margin: 0 auto;
 	padding: 10px;
-	border: 3px dashed #bbb;
 }
+
+.content {
+	background: rgba(200, 200, 200, 0.8);
+    box-shadow: 0 1px 4px #666;
+    border-radius: 5px;
+}
+
+.section.footer li {
+    float: right;
+    padding: 0 10px 0 10px;
+    list-style-type: none;
+    a {
+        color: red;
+        text-decoration: none;
+    }
+}
+
 a {
 	color: #000;
 }
@@ -45,23 +61,32 @@ li {
 }
 .positive, .negative, .natural {
 	padding: 10px;
+    border-radius: 5px;
 }
 .positive {
-	background: green;
+	background: #88cc88;
 }
 .negative {
 	background: red;
 	color: white;
 }
 .natural {
-	background: yellow;
+	background: #ffee88;
 }
 h1 {
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #666;
 }
 h1 a {
+    color: #666;
 	text-decoration: none;
 }
 div.entry {
 	overflow:auto;
+}
+
+div#rules {
+    display: none;
+}
+h4 {
+    margin: 10px 0 5px 0;
 }

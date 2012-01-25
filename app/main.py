@@ -21,7 +21,7 @@ import logging
 
 TEMPLATES_DIR = join(dirname(__file__), "templates")
 JINJA_ENV = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATES_DIR))
-AUTHSTR = "Basic " + base64.b64encode('username:apikey')
+AUTHSTR = "Basic " + base64.b64encode('ffanony:stir965dured')
 
 
 ## Models #####################################################################
@@ -149,7 +149,7 @@ class AdminView(webapp2.RequestHandler):
         if user and users.is_current_user_admin():
             filter_by = self.request.get("filter_by")
             if filter_by and filter_by in ("pending", "accepted", "rejected",
-                                           "published", "deleted"):
+                                           "published", "deleted", "draft"):
                 query = db.GqlQuery("SELECT * FROM Entry WHERE "
                                     "status='%s' ORDER BY date "
                                     "DESC" % filter_by)

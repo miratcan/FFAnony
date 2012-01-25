@@ -6,21 +6,21 @@
 {% else %}
 		{% if entry.status == "draft" %}
 			<p class="natural">
-				This entry is ready to be published. If you are sure to publish
-				<a href="?key={{entry.key()}}&action=publish">click here</a>.
+                Friendfeed'e göndermek istediğinize emin iseniz
+				<a href="?key={{entry.key()}}&action=publish">buraya tıklayın</a>.
 			</p>
 		{% endif %}
 
 		{% if entry.status == "pending" %}
 			<div class="natural">
 				<p>
-					This entry is waiting for admin review. If admin accepts
-					<a href="http://friendfeed.com/anonief">anonief</a> will
-					publish it.
+                    Bu gönderi onay için bekliyor, eğer onaylanır ise
+					<a href="http://friendfeed.com/anonief">ffanony</a> tarafından
+					paylaşılacak.
 				</p>
 				<p>
-					If you want to delete your post in future. You can use
-					this url. So, save it to somewhere.
+                    Eğer bu gönderiyi silmek isterseniz aşağıdaki adresten bunu yapabilirsiniz.
+                    Silmek isteyebileceğinizi düşünüyorsanız adresi bir yere kaydedin.
 				</p>
 				<p>
 					<input type="text" value="http://ffanony.appspot.com/entry/?key={{entry.key()}}">
@@ -30,26 +30,27 @@
 
 		{% if entry.status == "accepted" %}
 			<p class="positive">
-				This entry is accepted by admin, it will be published by
-				<a href="http://friendfeed.com/anonief">anonief</a> in an hour.
+                Bu girdi onaylanmış, bir kaç dakika içinde
+	            <a href="http://friendfeed.com/anonief">anonief</a> tarafından
+                paylaşılmış olacak.
 			</p>
 		{% endif %}
-		
+
 		{% if entry.status == "rejected" %}
 			<p class="negative">
-				This entry is rejected by admin, may be you have to re read the
-				rules.
+                Girdiniz reddedilmiş, ana sayfadaki kurallar bağlantısına tıklayıp
+                tekrar okumanızda fayda var.
 			</p>
 		{% endif %}
-		
+
 		{% if entry.status == "published" %}
 			<p class="positive">
-				This entry is published by anonief.
-				<a href="{{entry.url}}">Click here</a> to see it.
+                Bu girdi anonief tarafından paylaşılmış, görmek için
+				<a href="{{entry.url}}">buraya tıklayın</a>.
 			</p>
 			<p class="natural" style='text-align:right'>
-				To delete this post,
-			    <a href="/entry/?key={{entry.key()}}&action=delete">click here</a>.
+                Bu girdiyi friendfeed'den silmek için
+			    <a href="/entry/?key={{entry.key()}}&action=delete">buraya tıkla</a>yabilirsiniz.
 			</p>
 		{% endif %}
 	<p>{{entry.body}}</p>

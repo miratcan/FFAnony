@@ -1,23 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
+    <h4>Nedir?</h4>
 	<p>
-		This tool is used for posting anonymous entries to friendfeed. Entries
-		that posted from this panel appears on profile of 
-		<a href="http://friendfeed.com/ffanony/">ffanony</a>. Nobody knows who
-		you are. But there is two rules you have to obey:
+		Bu ekrandan yaptığınız gönderiler eğer
+        <a href="#" onClick="$('div#rules').slideToggle('slow')">kurallar</a>a uyuyor ise friendfeed'deki
+        <a href="http://friendfeed.com/ffanony/">ffanony</a> kullanıcısı tarafından paylaşılır,
+        böylelikle kimliğinizi saklamış olursunuz.
 	</p>
-	<ol>
-		<li>
-			Entries that you posted can <b>NOT</b> contain any <b>USERNAME</b>
-			or <b>REAL NAME</b> of a friendfeed user.
-		</li>
-		<li>
-			If your entry has images, you have to write <b>ffanony</b> somewhere
-			of the pic <b>WITHOUT</b> computer trick. Use pencil and paper :)
-		</li>
-	</ol>
+    <div id="rules">
+        <h4>Kurallar</h4>
+	    <ol>
+		    <li>
+                Her hangi bir ff kullanısının kullanıcı adını ya da gerçek adını geçirmek yasak.
+            </li>
+		    <li>
+                Eğer bir fotoğraf koyacaksanız bunun her hangi bir yerine
+                bilgisayar müdahelesi olmadan ffanony yazmanız gerekiyor.
+                (Şuradaki gibi: <a href="http://ff.im/Pf7MO">http://ff.im/Pf7MO</a>)
+		    </li>
+	    </ol>
+    </div>
 	<form action="#" method="post" enctype="multipart/form-data" >
-		<label>Body:</label>
+		<label>Girdi:</label>
 		{% if err_msg %}
 			<div class="negative">{{ err_msg }}</div>
 		{% endif %}
@@ -25,6 +29,6 @@
 		<input type="file" type="image" name="img">
 		<input type="file" type="image" name="img">
 		<input type="file" type="image" name="img">
-		<input type="submit">
+		<input type="submit" value="Gönder">
 	</form>
 {% endblock %}
