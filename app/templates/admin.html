@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
     <ul id="filter_navigation">
-        <li><a href="/admin/">All</a></li>
+        <li{% if not filter_by %} class="active" {% endif %}><a href="/admin/">All</a></li>
         <li{% if filter_by=="pending" %} class="active" {% endif %}><a href="/admin/?filter_by=pending">Pending</a></li>
         <li{% if filter_by=="accepted" %} class="active" {% endif %}><a href="/admin/?filter_by=accepted">Accepted</a></li>
         <li{% if filter_by=="rejected" %} class="active" {% endif %}><a href="/admin/?filter_by=rejected">Rejected</a></li>
@@ -24,14 +24,19 @@
 			    </a>
 		        {% endfor %}
             </div>
-	        <div class="status {{entry.status}}">Status: {{entry.status}}<input type="checkbox" name="entry_key" value="{{entry.key()}}"></div>
+            <div class="info">
+                Status: {{entry.status}} {% if entry.nsfw %}/ NSFW{% endif %}
+                <input type="checkbox" name="entry_key" value="{{entry.key()}}">
+            </div>
         </div>
 	    {% endfor %}
         <select name="action">
             <option value="accepted">Mark as Accepted</option>
             <option value="rejected">Mark as Rejected</option>
+            <option value="nsfw">Mark as NSFW</option>
+            <option value="sfw">Mark as SFW</option>
             <option value="deleted">Delete</option>
         </select>
         <input type="submit" value="Do">
     </form>
-    {% endblock content %}
+{% endblock content %}

@@ -1,4 +1,18 @@
 {% extends "base.html" %}
+{% block extra_head %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("a#addFileInput").click(function() {
+                if ($("input[type=\"file\"]").length <= 3) {
+                    $("div#files").append("<input type=\"file\" type=\"image\" name=\"img\">").slideDown();
+                    $(this).find("span").html("Başka ");
+                } else {
+                    alert("Yeterince dosya yükledin");
+                }
+            });
+        });
+    </script>
+{% endblock %}
 {% block content %}
     <h4>Nedir?</h4>
 	<p>
@@ -26,9 +40,21 @@
 			<div class="negative">{{ err_msg }}</div>
 		{% endif %}
 		<textarea name="body"></textarea>
-		<input type="file" type="image" name="img">
-		<input type="file" type="image" name="img">
-		<input type="file" type="image" name="img">
+        <p>
+            <a href="#" id="addFileInput" class="buttonized"><span class="prefix"></span>Dosya Ekle</a>
+        </p>
+        <div id="files"></div>
+        <!--
+        <div>
+            <label>Dosya Eki</label>
+            <input type="file" type="image" name="img">
+        </div>
+        !-->
+        <p style="text-align: right; border-top: 1px solid #666;padding-top: 5px;">
+            <input type="checkbox" name="nsfw" />
+            İş yerinde görüntülemek için uygun değil ise işaretleyin. &rarr;
+        </p>
+
 		<input type="submit" value="Gönder">
 	</form>
 {% endblock %}

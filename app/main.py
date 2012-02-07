@@ -25,7 +25,8 @@ import config
 TEMPLATES_DIR = join(dirname(__file__), "templates")
 JINJA_ENV = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATES_DIR))
 AUTHSTR = "Basic " + base64.b64encode('%s:%s' % (config.USERNAME, config.REMOTE_KEY))
-
+MAX_ENTRY_LENGTH = 350
+ENTRY_NSFW_PREFIX = "[ #nsfw ] "
 
 ## Models #####################################################################
 class Entry(db.Model):
@@ -33,17 +34,11 @@ class Entry(db.Model):
     Holds entries to post friendfeed"""
 
     body = db.TextProperty()
-    eid = db.StringProperty(multiline=False)
+    eid = db.StringProperty()
     url = db.LinkProperty()
+    nsfw = db.BooleanProperty(default=False)
     status = db.StringProperty(required=True, default="draft",
-        choices=set([
-            "draft",     # when user creates a post
-            "pending",   # when user saves it for publishing
-            "accepted",  # when admin accepts posting
-            "rejected",  # when admin rejects
-            "deleted",   # when user marks it as deleted
-            "published"  # when it's online at friendfeed
-        ])
+        choices={"draft", "pending", "accepted", "rejected", "deleted", "published"}
     )
     date = db.DateTimeProperty(auto_now_add=True)
 
@@ -74,7 +69,10 @@ class MainView(webapp2.RequestHandler):
         # TODO: check uploaded files are images, if not: return error message
 
         self.response.headers['Content-Type'] = 'text/html'
-        entry = Entry(body=cgi.escape(self.request.get('body')))
+        entry = Entry(
+            body=cgi.escape(self.request.get('body')),
+            nsfw=bool(self.request.get("nsfw", default_value=False))
+        )
         entry.put()
 
         if self.request.get_all("img"):
@@ -179,6 +177,9 @@ class AdminView(webapp2.RequestHandler):
                     users.create_login_url("/admin/"))
 
     def post(self):
+        """
+
+        """
         action = self.request.get("action")
         if action:
             if action in ("accepted", "rejected", "deleted"):
@@ -186,6 +187,12 @@ class AdminView(webapp2.RequestHandler):
                     entry = Entry.get(entry_key)
                     entry.status = action
                     entry.put()
+            elif action in ("nsfw", "sfw"):
+                for entry_key in self.request.get_all("entry_key"):
+                    entry = Entry.get(entry_key)
+                    entry.nsfw = action == "nsfw"
+                    entry.put()
+
         self.redirect("/admin/")
 
 
@@ -193,34 +200,46 @@ class PushAccepted(webapp2.RequestHandler):
     def get(self):
 
         # Fetch, accepted entries
+
         entries = db.GqlQuery(
             "SELECT * FROM Entry WHERE status='accepted'"
             "ORDER BY date ASC").fetch(1)
 
         if entries:
             for entry in entries:
+                max_entry_length = MAX_ENTRY_LENGTH
 
                 # build urls of image attachments of entry as list
                 image_urls = [
                     "http://ffanony.appspot.com/attachment/?key=" + \
-                        str(attachment.key()) for attachment in \
+                    str(attachment.key()) for attachment in \
                             entry.attachment_set.fetch(3)]
 
-                # if body text is longer than 349 characters, split it two
-                # parts as body, and comment. So people can make long posts
-                if len(entry.body) >= 349:
-                    data_dict = {
-                        "body": entry.body.encode("utf-8")[:350],
-                        "comment": entry.body.encode("utf-8")[350:],
-                        "image_url": ",".join(image_urls)
-                    }
+                if entry.nsfw:
+                    data_dict = {"body": ENTRY_NSFW_PREFIX}
+                    max_entry_length -= len(ENTRY_NSFW_PREFIX)
                 else:
-                    data_dict = {
-                        "body": entry.body.encode("utf-8"),
-                        "image_url": ",".join(image_urls)
-                    }
+                    data_dict = {"body": ""}
 
-                # Convert data_dict to a urlencoded string
+                # if body text is longer than max_entry_length, split it two
+                # parts as body, and comment. So people can make long posts
+                if len(entry.body) > max_entry_length:
+                    data_dict["body"] += entry.body.encode("utf-8")[:max_entry_length - 3] + "..."
+                    data_dict["comment"] = "..." + entry.body.encode("utf-8")[MAX_ENTRY_LENGTH - 6:]
+                else:
+                    data_dict["body"] += entry.body.encode("utf-8")
+
+
+                if entry.nsfw and image_urls:
+                    if data_dict.has_key("comment"):
+                        print data_dict["comment"]
+                        data_dict["comment"] += "( %s )" % (" ".join(image_urls),)
+                    else:
+                        data_dict["comment"] = " ( %s )" % (" ".join(image_urls),)
+                else:
+                    data_dict["image_url"] = ",".join(image_urls)
+
+               # Convert data_dict to a urlencoded string
                 payload = urllib.urlencode(data_dict, "utf-8")
 
                 # Go johny go http://www.youtube.com/watch?v=uMY5VGYh2Go
@@ -238,6 +257,8 @@ class PushAccepted(webapp2.RequestHandler):
                     entry.url = result_data['url']
                     entry.status = "published"
                     entry.put()
+                else:
+                    logging.error(result_data)
                 self.response.out.write("pushed: %s\n" % entry.body)
         else:
             self.response.out.write("Nothing to push.")
