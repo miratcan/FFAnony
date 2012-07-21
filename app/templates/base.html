@@ -7,11 +7,32 @@
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<link href="/static/style.css" type="text/css" rel="stylesheet">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    
+    <!-- Bakalım Bağış Gelecekmi... -->
+    <script type="text/javascript">
+        /* <![CDATA[ */
+            (function() {
+                var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+                s.type = 'text/javascript';
+                s.async = true;
+                s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
+                t.parentNode.insertBefore(s, t);
+            })();
+        /* ]]> */
+    </script>
+
     {% block extra_head %}
     {% endblock extra_head %}
 </head>
 
 <body>
+    <div class="section">
+        <div id="flattr_button">
+            <a class="FlattrButton" style="display:none;" href="http://ffanony.appspot.com"></a>
+            <noscript><a href="http://flattr.com/thing/542575/ffanony" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a></noscript>
+        </div>
+        <p class="description">Yandaki butonu kullanarak bağış yapabilir; FFAnony'ye yeni özellikler eklemesi, ya da yeni projeler geliştirmesi için geliştiriciyi motive edebilirsiniz.</p>
+    </div>
 	<div class="section content">
 		<h1><a href="/">ffanony</a></h1>
 		{% block content %}

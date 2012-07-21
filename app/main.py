@@ -116,7 +116,7 @@ class EntryView(webapp2.RequestHandler):
                     entry.status = "deleted"
                     entry.put()
                 else:
-                    logging.error(result.content)
+                    logging.error(result)
 
             # If action is public, mark it as pending for admin review.
             if action == "publish" and entry.status == "draft":
@@ -258,7 +258,7 @@ class PushAccepted(webapp2.RequestHandler):
                     entry.status = "published"
                     entry.put()
                 else:
-                    logging.error(result_data)
+                    logging.error(result)
                 self.response.out.write("pushed: %s\n" % entry.body)
         else:
             self.response.out.write("Nothing to push.")
